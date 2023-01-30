@@ -19,35 +19,35 @@ dealer_is_bust = False
 player_name = ""
 
 def player_intro():
-    input("Please, enter your name:")
-    player_name = input
+    player_name = input("Please enter your name: ")
+    print("Welcome, " + player_name)
     return player_name
 
 def player_init():
     if Player.player_count == 1:
         player_1 = Player(player_name)
-    elif Player.player_name == 2:
+    elif Player.player_count == 2:
         player_2 = Player(player_name)
-    elif Player.player_name == 3:
+    elif Player.player_count == 3:
         player_3 = Player(player_name)
-    elif Player.player_name == 4:
+    elif Player.player_count == 4:
         player_4 = Player(player_name)
-    elif Player.player_name == 5:
+    elif Player.player_count == 5:
         player_5 = Player(player_name)
 
 def player_add():
     player_intro()
     player_init()
     while Player.player_count <= 5:
-        y_or_n = input("Are there any additional players? Y/N:")
+        y_or_n = input("Are there any additional players? Y/N: ")
         if y_or_n.lower() == "y":
             player_intro()
             player_init()
         elif y_or_n.lower() == "n":
             print("Ok, let's play!")
-        elif Player.player_count == 5:
-            print("That's five, let's play!")
-    
+            break
+    if Player.player_count == 6:
+        print("That's five, let's play!")  
 
 
 print("""
