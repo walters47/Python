@@ -12,7 +12,6 @@ class Player():
         self.card_value = 0
         self.is_bust = False
         Player.player_count += 1
-        return Player.player_count
     
 dealer_hand = []
 dealer_card_value = 0
