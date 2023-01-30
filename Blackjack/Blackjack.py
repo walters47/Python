@@ -39,11 +39,11 @@ def player_add():
     player_intro()
     player_init()
     while Player.player_count <= 5:
-        input("Are there any additional players? Y/N:")
-        if input.lower() == "y":
+        y_or_n = input("Are there any additional players? Y/N:")
+        if y_or_n.lower() == "y":
             player_intro()
             player_init()
-        elif input.lower() == "n":
+        elif y_or_n.lower() == "n":
             print("Ok, let's play!")
         elif Player.player_count == 5:
             print("That's five, let's play!")
