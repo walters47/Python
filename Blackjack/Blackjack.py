@@ -59,3 +59,14 @@ The object of the game is to hold cards as close in value as possible to 21, wit
 If you beat the dealer, you double your bet!
 """)
 player_add()
+#Players place bets
+#Deal 1 card to each player 'face up', 1 to dealer 'face down'
+#Deal 2nd card to all 'face up'
+#Check for bust/blackjack
+#Cycle through player turns
+#Dealer turn
+#Check players vs dealer
+#Declare winners/losers and tell current funds
+#If money == 0, give the stanky boot
+#Offer opportunity to leave table
+#If 0 players remain, end the game
