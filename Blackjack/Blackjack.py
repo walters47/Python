@@ -63,17 +63,17 @@ def player_add(player_name):
         print("That's five, let's play!")
     return player_1, player_2, player_3, player_4, player_5
 
-def place_your_bets():
+def place_your_bets(no_of_players):
     print("All players begin with £100. The minimum bet is £5")
     player_1.place_bet()
-    if player_2.name != "":
-        player_2.place_bet
-    if player_3.name != "":
-        player_3.place_bet
-    if player_4.name != "":
-        player_4.place_bet
-    if player_5.name != "":
-        player_5.place_bet
+    if no_of_players > 2:
+        player_2.place_bet()
+    if no_of_players > 3:
+        player_3.place_bet()
+    if no_of_players > 4:
+        player_4.place_bet()
+    if no_of_players > 5:
+        player_5.place_bet()
 
 print("""
 =========
@@ -84,7 +84,8 @@ The object of the game is to hold cards as close in value as possible to 21, wit
 If you beat the dealer, you double your bet!
 """)
 player_add(player_name)
-place_your_bets()
+print(player_1, player_2, player_3, player_4, player_5, Player.player_count)
+place_your_bets(Player.player_count)
 #Players place bets
 #Deal 1 card to each player 'face up', 1 to dealer 'face down'
 #Deal 2nd card to all 'face up'
