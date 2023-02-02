@@ -12,6 +12,8 @@ class Player():
         self.hand = []
         self.card_value = 0
         self.is_bust = False
+        self.has_won = False
+        self.has_stuck = False
 
     def __repr__(self):
         return self.name
@@ -34,6 +36,19 @@ class Player():
         self.card_value += cards[random_card]
         print("{}: {}".format(self.name, self.hand))
         print("Your total is {}".format(self.card_value))
+
+    def blackjack_or_bust(self):
+        if self.card_value > 21 and "Ace" in self.hand:
+            self.card_value -= 10
+        elif self.card_value > 21:
+            self.is_bust = True
+            print("{} has gone bust! They lose their bet.".format(self.name))
+        elif self.card_value == 21 and len(self.hand) == 2:
+            self.has_won = True
+            print("{} has Blackjack! Congratulations, you win!".format(self.name))
+        elif self.card_value > dealer_card_value:
+            if dealer_has_stuck == True or dealer_is_bust == True:
+                self.has_won = True
     
     #def __del__(self):
         #print(self.name + " has left the table")
@@ -42,6 +57,7 @@ class Player():
 dealer_hand = []
 dealer_card_value = 0
 dealer_is_bust = False
+dealer_has_stuck = False
 player_1 = Player()
 player_2 = Player()
 player_3 = Player()
@@ -91,8 +107,7 @@ def deal_to_dealer(dealer_card_value):
     random_card = random.choice(list(cards.keys()))
     dealer_hand.append(random_card)
     dealer_card_value += cards[random_card]
-    if len(dealer_hand) == 2:
-        print("Dealer's 2nd card: {}".format(dealer_hand[1]))
+    print("Dealer's 1st card: {}".format(dealer_hand[0]))
 
 def deal_cards(no_of_players):
     print("Dealing cards to all players:")
@@ -119,8 +134,6 @@ player_add(player_name)
 place_your_bets(Player.player_count)
 deal_cards(Player.player_count)
 deal_cards(Player.player_count)
-#Deal 1 card to each player 'face up', 1 to dealer 'face down'
-#Deal 2nd card to all 'face up'
 #Check for bust/blackjack
 #Cycle through player turns
 #Dealer turn
