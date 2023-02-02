@@ -20,6 +20,7 @@ class Player():
         self.bet = int(input("{}, you have £{} remaining. How much would you like to bet? £".format(self, self.money)))
         while self.bet not in range(5, self.money + 1):
             self.bet = int(input("Invalid bet. Please enter a value between £5 and £{}: £".format(self.money)))
+        print("{} has bet £{}.".format(self.name, self.bet))
 
     def name_player(self, player_name):
         player_name = input("Please enter your name: ")
@@ -31,7 +32,6 @@ class Player():
         random_card = random.choice(list(cards.keys()))
         self.hand.append(random_card)
         self.card_value += cards[random_card]
-        print("Dealing a card to {}:".format(self.name))
         print("{}: {}".format(self.name, self.hand))
         print("Your total is {}".format(self.card_value))
     
@@ -78,20 +78,35 @@ def player_add(player_name):
 def place_your_bets(no_of_players):
     print("All players begin with £100. The minimum bet is £5")
     player_1.place_bet()
-    print("{} has bet £{}.".format(player_1.name, player_1.bet))
     if no_of_players > 2:
         player_2.place_bet()
-        print("{} has bet £{}.".format(player_2.name, player_2.bet))
     if no_of_players > 3:
         player_3.place_bet()
-        print("{} has bet £{}.".format(player_3.name, player_3.bet))
     if no_of_players > 4:
         player_4.place_bet()
-        print("{} has bet £{}.".format(player_4.name, player_4.bet))
     if no_of_players > 5:
         player_5.place_bet()
-        print("{} has bet £{}.".format(player_5.name, player_5.bet))
 
+def deal_to_dealer(dealer_card_value):
+    random_card = random.choice(list(cards.keys()))
+    dealer_hand.append(random_card)
+    dealer_card_value += cards[random_card]
+    if len(dealer_hand) == 2:
+        print("Dealer's 2nd card: {}".format(dealer_hand[1]))
+
+def deal_cards(no_of_players):
+    print("Dealing cards to all players:")
+    player_1.deal_card()
+    if no_of_players > 2:
+        player_2.deal_card()
+    if no_of_players > 3:
+        player_3.deal_card()
+    if no_of_players > 4:
+        player_4.deal_card()
+    if no_of_players > 5:
+        player_5.deal_card()
+    deal_to_dealer(dealer_card_value)
+    
 print("""
 =========
 Blackjack
@@ -102,7 +117,8 @@ If you beat the dealer, you double your bet!
 """)
 player_add(player_name)
 place_your_bets(Player.player_count)
-player_1.deal_card()
+deal_cards(Player.player_count)
+deal_cards(Player.player_count)
 #Deal 1 card to each player 'face up', 1 to dealer 'face down'
 #Deal 2nd card to all 'face up'
 #Check for bust/blackjack
