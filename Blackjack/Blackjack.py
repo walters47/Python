@@ -1,3 +1,5 @@
+import random
+
 cards = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10, "Ace": 11}
 
 class Player():
@@ -24,6 +26,14 @@ class Player():
         self.name = player_name
         print("Welcome, " + self.name)
         Player.player_count += 1
+
+    def deal_card(self):
+        random_card = random.choice(list(cards.keys()))
+        self.hand.append(random_card)
+        self.card_value += cards[random_card]
+        print("Dealing a card to {}:".format(self.name))
+        print("{}: {}".format(self.name, self.hand))
+        print("Your total is {}".format(self.card_value))
     
     #def __del__(self):
         #print(self.name + " has left the table")
@@ -92,7 +102,7 @@ If you beat the dealer, you double your bet!
 """)
 player_add(player_name)
 place_your_bets(Player.player_count)
-#Players place bets
+player_1.deal_card()
 #Deal 1 card to each player 'face up', 1 to dealer 'face down'
 #Deal 2nd card to all 'face up'
 #Check for bust/blackjack
