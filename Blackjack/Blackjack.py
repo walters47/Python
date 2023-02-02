@@ -15,7 +15,9 @@ class Player():
         return self.name
 
     def place_bet(self):
-        self.bet = input("{}, you have £{} remaining. How much would you like to bet? £".format(self, self.money))
+        self.bet = int(input("{}, you have £{} remaining. How much would you like to bet? £".format(self, self.money)))
+        while self.bet not in range(5, self.money + 1):
+            self.bet = int(input("Invalid bet. Please enter a value between £5 and £{}: £".format(self.money)))
 
     def name_player(self, player_name):
         player_name = input("Please enter your name: ")
@@ -66,14 +68,19 @@ def player_add(player_name):
 def place_your_bets(no_of_players):
     print("All players begin with £100. The minimum bet is £5")
     player_1.place_bet()
+    print("{} has bet £{}.".format(player_1.name, player_1.bet))
     if no_of_players > 2:
         player_2.place_bet()
+        print("{} has bet £{}.".format(player_2.name, player_2.bet))
     if no_of_players > 3:
         player_3.place_bet()
+        print("{} has bet £{}.".format(player_3.name, player_3.bet))
     if no_of_players > 4:
         player_4.place_bet()
+        print("{} has bet £{}.".format(player_4.name, player_4.bet))
     if no_of_players > 5:
         player_5.place_bet()
+        print("{} has bet £{}.".format(player_5.name, player_5.bet))
 
 print("""
 =========
@@ -84,7 +91,6 @@ The object of the game is to hold cards as close in value as possible to 21, wit
 If you beat the dealer, you double your bet!
 """)
 player_add(player_name)
-print(player_1, player_2, player_3, player_4, player_5, Player.player_count)
 place_your_bets(Player.player_count)
 #Players place bets
 #Deal 1 card to each player 'face up', 1 to dealer 'face down'
