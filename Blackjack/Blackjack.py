@@ -51,11 +51,11 @@ class Player():
             elif self.card_value > 21:
                 self.is_bust = True
                 self.money -= self.bet
-                print("{} has gone bust! They lose their bet.".format(self.name))
+                print("{} has gone bust! They lose their bet. You have £{} remaining".format(self.name, self.money))
             elif self.card_value == 21 and len(self.hand) == 2:
                 self.has_won = True
                 self.money += self.bet
-                print("{} has Blackjack! Congratulations, you win!".format(self.name))
+                print("{} has Blackjack! Congratulations, you win! You now have £{}".format(self.name, self.money))
             elif self.card_value == 21:
                 self.has_stuck = True
                 print("{}, that's 21! If the dealer does not finish with 21, you will win!".format(self.name))
@@ -66,11 +66,11 @@ class Player():
                 if dealer_has_stuck == True or dealer_is_bust == True:
                     self.has_won = True
                     self.money += self.bet
-                    print("{}, your score of {} has beat the dealer! Congratulations!".format(self.name, self.card_value))
+                    print("{}, your score of {} has beat the dealer! Congratulations! You now have £{}".format(self.name, self.card_value, self.money))
             elif self.card_value <= dealer_card_value:
                 if dealer_has_stuck == True and dealer_is_bust == False:
                     self.money -= self.bet
-                    print("{}, your score of {} failed to beat the dealer! You lose your bet.".format(self.name, self.card_value))
+                    print("{}, your score of {} failed to beat the dealer! You lose your bet. You now have £{} remaining.".format(self.name, self.card_value, self.money))
     
     def player_turn(self):
         while self.is_bust == False and self.has_won == False and self.has_stuck == False and self.at_the_table == True:
@@ -93,14 +93,14 @@ class Player():
         if self.at_the_table == True:
             print("{}, you have £{} remaining.".format(self.name, self.money))
             if self.money < 5:
-                print("You do not have enough money to make the minimum bet. You are now out of the game.")
+                print("You do not have enough money to make the minimum bet. {} is now out of the game.".format(self.name))
                 self.money = 0
                 self.reset_player()
                 self.at_the_table = False
             else:
                 cash_out = input("Do you want to cash out? Y/N: ")
                 if cash_out.lower() == "y":
-                    print("You have cashed out and left the table.")
+                    print("{} has cashed out and left the table.".format(self.name))
                     self.money = 0
                     self.reset_player()
                     self.at_the_table = False
@@ -146,7 +146,6 @@ def player_add(player_name):
     return player_1, player_2, player_3, player_4, player_5
 
 def place_your_bets(no_of_players):
-    print("All players begin with £100. The minimum bet is £5")
     player_1.place_bet()
     if no_of_players > 2:
         player_2.place_bet()
@@ -254,15 +253,16 @@ Blackjack
 Welcome to Blackjack!
 The object of the game is to hold cards as close in value as possible to 21, without going over.
 If you beat the dealer, you double your bet!
+All players begin with £100. The minimum bet is £5
 """)
 player_add(player_name)
-place_your_bets(Player.player_count)
-opening_hand(Player.player_count)
-player_turns(Player.player_count)
-dealer_turn()
-end_of_round(Player.player_count)
-#Check players vs dealer
-#Declare winners/losers and tell current funds
-#If money == 0, give the stanky boot
-#Offer opportunity to leave table
-#If 0 players remain, end the game
+while player_1.at_the_table == True or player_2.at_the_table == True or player_3.at_the_table == True or player_4.at_the_table == True or player_5.at_the_table == True:
+    place_your_bets(Player.player_count)
+    opening_hand(Player.player_count)
+    player_turns(Player.player_count)
+    dealer_turn()
+    end_of_round(Player.player_count)
+print("""
+No players remain at the table.
+The game is over, thanks for playing!
+""")
