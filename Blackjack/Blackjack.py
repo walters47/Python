@@ -42,6 +42,8 @@ class Player():
     def blackjack_or_bust(self):
         if self.money > 0:
             if self.card_value > 21 and "Ace" in self.hand:
+                ace_index = self.hand.index("Ace")
+                self.hand[ace_index] =  "Ace (1)"
                 print("Your Ace is now worth 1 to prevent you from going bust!")
                 self.card_value -= 10
             elif self.card_value > 21:
