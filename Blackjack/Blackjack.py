@@ -14,12 +14,13 @@ class Player():
         self.is_bust = False
         self.has_won = False
         self.has_stuck = False
+        self.at_the_table = False
 
     def __repr__(self):
         return self.name
 
     def place_bet(self):
-        if self.money > 0:
+        if self.at_the_table == True:
             self.bet = int(input("{}, you have £{} remaining. How much would you like to bet? £".format(self, self.money)))
             while self.bet not in range(5, self.money + 1):
                 self.bet = int(input("Invalid bet. Please enter a value between £5 and £{}: £".format(self.money)))
@@ -30,9 +31,10 @@ class Player():
         self.name = player_name
         print("Welcome, " + self.name)
         Player.player_count += 1
+        self.at_the_table = True
 
     def deal_card(self):
-        if self.money > 0:
+        if self.at_the_table == True:
             random_card = random.choice(list(cards.keys()))
             self.hand.append(random_card)
             self.card_value += cards[random_card]
@@ -40,7 +42,7 @@ class Player():
             print("Your total is {}".format(self.card_value))
 
     def blackjack_or_bust(self):
-        if self.money > 0:
+        if self.at_the_table == True:
             if self.card_value > 21 and "Ace" in self.hand:
                 ace_index = self.hand.index("Ace")
                 self.hand[ace_index] =  "Ace (1)"
@@ -64,25 +66,48 @@ class Player():
                 if dealer_has_stuck == True or dealer_is_bust == True:
                     self.has_won = True
                     self.money += self.bet
-                    print("{} has beat the dealer! Congratulations!".format(self.name))
+                    print("{}, your score of {} has beat the dealer! Congratulations!".format(self.name, self.card_value))
             elif self.card_value <= dealer_card_value:
                 if dealer_has_stuck == True and dealer_is_bust == False:
                     self.money -= self.bet
-                    print("{}, you failed to beat the dealer! You lose your bet.".format(self.name))
+                    print("{}, your score of {} failed to beat the dealer! You lose your bet.".format(self.name, self.card_value))
     
     def player_turn(self):
-        while self.is_bust == False and self.has_won == False and self.has_stuck == False and self.money > 0:
+        while self.is_bust == False and self.has_won == False and self.has_stuck == False and self.at_the_table == True:
             hit_or_stick = input("{}, your total is {}. Do you want to hit or stick? H/S: ".format(self.name, self.card_value))
             if hit_or_stick.lower() == "h":
                 self.deal_card()
                 self.blackjack_or_bust()
             elif hit_or_stick.lower() == "s":
                 self.has_stuck = True
+
+    def reset_player(self):
+        self.bet = 0
+        self.hand = []
+        self.card_value = 0
+        self.is_bust = False
+        self.has_won = False
+        self.has_stuck = False
     
-    #def __del__(self):
-        #print(self.name + " has left the table")
-       # Player.player_count -= 1
-  
+    def end_of_round(self):
+        if self.at_the_table == True:
+            print("{}, you have £{} remaining.".format(self.name, self.money))
+            if self.money < 5:
+                print("You do not have enough money to make the minimum bet. You are now out of the game.")
+                self.money = 0
+                self.reset_player()
+                self.at_the_table = False
+            else:
+                cash_out = input("Do you want to cash out? Y/N: ")
+                if cash_out.lower() == "y":
+                    print("You have cashed out and left the table.")
+                    self.money = 0
+                    self.reset_player()
+                    self.at_the_table = False
+                else:
+                    print("Okay, let's play another hand!")
+                    self.reset_player()
+
 dealer_hand = []
 dealer_card_value = 0
 dealer_is_bust = False
@@ -185,7 +210,9 @@ def dealer_turn():
             deal_to_dealer()
             print("Dealer hand: {}".format(dealer_hand))
             print("Dealer total: {}".format(dealer_card_value))
+    check_vs_dealer(Player.player_count)
     return dealer_has_stuck, dealer_is_bust, dealer_card_value
+    
 
 def player_turns(no_of_players):
     player_1.player_turn()
@@ -197,7 +224,29 @@ def player_turns(no_of_players):
         player_4.player_turn()
     if no_of_players > 5:
         player_5.player_turn()
-    
+
+def check_vs_dealer(no_of_players):
+    player_1.beat_the_dealer()
+    if no_of_players > 2:
+        player_2.beat_the_dealer()
+    if no_of_players > 3:
+        player_3.beat_the_dealer()
+    if no_of_players > 4:
+        player_4.beat_the_dealer()
+    if no_of_players > 5:
+        player_5.beat_the_dealer()
+
+def end_of_round(no_of_players):
+    player_1.end_of_round()
+    if no_of_players > 2:
+        player_2.end_of_round()
+    if no_of_players > 3:
+        player_3.end_of_round()
+    if no_of_players > 4:
+        player_4.end_of_round()
+    if no_of_players > 5:
+        player_5.end_of_round()
+
 print("""
 =========
 Blackjack
@@ -211,8 +260,7 @@ place_your_bets(Player.player_count)
 opening_hand(Player.player_count)
 player_turns(Player.player_count)
 dealer_turn()
-#Cycle through player turns
-#Dealer turn
+end_of_round(Player.player_count)
 #Check players vs dealer
 #Declare winners/losers and tell current funds
 #If money == 0, give the stanky boot
