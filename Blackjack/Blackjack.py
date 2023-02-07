@@ -132,11 +132,12 @@ def place_your_bets(no_of_players):
     if no_of_players > 5:
         player_5.place_bet()
 
-def deal_to_dealer(dealer_card_value):
+def deal_to_dealer():
+    global dealer_card_value
     random_card = random.choice(list(cards.keys()))
     dealer_hand.append(random_card)
     dealer_card_value += cards[random_card]
-    print("Dealer's 1st card: {}".format(dealer_hand[0]))
+    return dealer_card_value
 
 def deal_cards(no_of_players):
     print("Dealing cards to all players:")
@@ -149,7 +150,9 @@ def deal_cards(no_of_players):
         player_4.deal_card()
     if no_of_players > 5:
         player_5.deal_card()
-    deal_to_dealer(dealer_card_value)
+    deal_to_dealer()
+    print("Dealer's 1st card: {}".format(dealer_hand[0]))
+    return dealer_card_value
 
 def opening_hand(no_of_players):
     deal_cards(no_of_players)
@@ -163,6 +166,26 @@ def opening_hand(no_of_players):
         player_4.blackjack_or_bust()
     if no_of_players > 5:
         player_5.blackjack_or_bust()
+
+def dealer_turn():
+    global dealer_has_stuck
+    global dealer_is_bust
+    print("Dealer reveals their hand: {}".format(dealer_hand))
+    print("Dealer total: {}".format(dealer_card_value))
+    while dealer_has_stuck == False and dealer_is_bust == False:
+        if dealer_card_value > 21:
+            dealer_is_bust = True
+            print("The dealer has gone bust!")
+            break
+        elif dealer_card_value in range(17, 22):
+            dealer_has_stuck = True
+            print("The dealer sticks on {}".format(dealer_card_value))
+            break
+        elif dealer_card_value < 17:
+            deal_to_dealer()
+            print("Dealer hand: {}".format(dealer_hand))
+            print("Dealer total: {}".format(dealer_card_value))
+    return dealer_has_stuck, dealer_is_bust, dealer_card_value
 
 def player_turns(no_of_players):
     player_1.player_turn()
@@ -187,6 +210,7 @@ player_add(player_name)
 place_your_bets(Player.player_count)
 opening_hand(Player.player_count)
 player_turns(Player.player_count)
+dealer_turn()
 #Cycle through player turns
 #Dealer turn
 #Check players vs dealer
