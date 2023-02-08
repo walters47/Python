@@ -137,10 +137,10 @@ def check_vs_dealer(no_of_players):
         player_5.beat_the_dealer()
 
 def end_of_round(no_of_players):
-    global dealer_hand = []
-    global dealer_card_value = 0
-    global dealer_is_bust = False
-    global dealer_has_stuck = False
+    global dealer_hand
+    global dealer_card_value
+    global dealer_is_bust
+    global dealer_has_stuck
     player_1.end_of_round()
     if no_of_players > 2:
         player_2.end_of_round()
@@ -151,7 +151,7 @@ def end_of_round(no_of_players):
     if no_of_players > 5:
         player_5.end_of_round()
     dealer_hand = []
-    dealer_car_value = 0
+    dealer_card_value = 0
     dealer_is_bust = False
     dealer_has_stuck = False
     return dealer_hand, dealer_car_value, dealer_is_bust, dealer_has_stuck
