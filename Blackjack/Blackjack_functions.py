@@ -154,4 +154,4 @@ def end_of_round(no_of_players):
     dealer_card_value = 0
     dealer_is_bust = False
     dealer_has_stuck = False
-    return dealer_hand, dealer_car_value, dealer_is_bust, dealer_has_stuck
+    return dealer_hand, dealer_card_value, dealer_is_bust, dealer_has_stuck
