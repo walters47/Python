@@ -88,10 +88,17 @@ def opening_hand(no_of_players):
 def dealer_turn():
     global dealer_has_stuck
     global dealer_is_bust
+    global dealer_card_value
+    global dealer_hand
     print("Dealer reveals their hand: {}".format(dealer_hand))
     print("Dealer total: {}".format(dealer_card_value))
     while dealer_has_stuck == False and dealer_is_bust == False:
-        if dealer_card_value > 21:
+        if dealer_card_value > 21 and "Ace" in dealer_hand:
+            ace_index = dealer_hand.index("Ace")
+            dealer_hand[ace_index] =  "Ace (1)"
+            print("The dealer's Ace is now worth 1 to prevent them from going bust!")
+            dealer_card_value -= 10
+        elif dealer_card_value > 21:
             dealer_is_bust = True
             print("The dealer has gone bust!")
             break
@@ -104,7 +111,7 @@ def dealer_turn():
             print("Dealer hand: {}".format(dealer_hand))
             print("Dealer total: {}".format(dealer_card_value))
     check_vs_dealer(Player.player_count)
-    return dealer_has_stuck, dealer_is_bust, dealer_card_value
+    return dealer_has_stuck, dealer_is_bust, dealer_card_value, dealer_hand
     
 
 def player_turns(no_of_players):
@@ -130,6 +137,10 @@ def check_vs_dealer(no_of_players):
         player_5.beat_the_dealer()
 
 def end_of_round(no_of_players):
+    global dealer_hand = []
+    global dealer_card_value = 0
+    global dealer_is_bust = False
+    global dealer_has_stuck = False
     player_1.end_of_round()
     if no_of_players > 2:
         player_2.end_of_round()
@@ -139,3 +150,8 @@ def end_of_round(no_of_players):
         player_4.end_of_round()
     if no_of_players > 5:
         player_5.end_of_round()
+    dealer_hand = []
+    dealer_car_value = 0
+    dealer_is_bust = False
+    dealer_has_stuck = False
+    return dealer_hand, dealer_car_value, dealer_is_bust, dealer_has_stuck
