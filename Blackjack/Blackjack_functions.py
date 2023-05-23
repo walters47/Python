@@ -101,11 +101,9 @@ def dealer_turn():
         elif dealer_card_value > 21:
             dealer_is_bust = True
             print("The dealer has gone bust!")
-            break
         elif dealer_card_value in range(17, 22):
             dealer_has_stuck = True
             print("The dealer sticks on {}".format(dealer_card_value))
-            break
         elif dealer_card_value < 17:
             deal_to_dealer()
             print("Dealer hand: {}".format(dealer_hand))
