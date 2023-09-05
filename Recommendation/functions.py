@@ -1,10 +1,10 @@
 from destinations import destinations_hash, destination
 
-def suggest_attractions():
+def suggest_attractions(destinations):
     attractions = []
-    for destination in destinations_hash.array:
+    for destination in destinations.array:
         if destination:
-            for item in destinations_hash.retrieve(destination[0]).attractions:
+            for item in destinations.retrieve(destination[0]).attractions:
                 if item not in attractions:
                     attractions.append(item)
     print("Which of the following attractions appeal to you?: ")
@@ -14,9 +14,9 @@ def suggest_attractions():
         count += 1
     return attractions
 
-def retrieve_attractions():
+def retrieve_attractions(destinations):
     user_choices = []
-    attractions = suggest_attractions()
+    attractions = suggest_attractions(destinations)
     another_choice = True
     while another_choice and len(user_choices) <= 3:
         attraction = int(input("Please enter the number of the attraction that appeals to you: "))
