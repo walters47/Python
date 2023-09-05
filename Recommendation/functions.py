@@ -12,5 +12,16 @@ def suggest_attractions():
     for item in attractions:
         print("{}. {}".format(count, item))
         count += 1
+    return attractions
 
-suggest_attractions()
+def retrieve_attractions():
+    user_choices = []
+    attractions = suggest_attractions()
+    another_choice = True
+    while another_choice and len(user_choices) <= 3:
+        attraction = int(input("Please enter the number of the attraction that appeals to you: "))
+        user_choices.append(attractions[attraction-1])
+        ask_again = input("Would you like to make another selection? Yes/No: ").lower()
+        if ask_again[0] == "n":
+            another_choice = False
+    return user_choices
