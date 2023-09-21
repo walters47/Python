@@ -8,9 +8,12 @@ def recommendation(destinations_hash):
         user_destinations = destinations_from_weather(user_destinations)
         user_destinations = destinations_from_price(user_destinations)
         user_destinations = destinations_from_attractions(user_destinations)
+        print("Your final destination list:")
         show_user_destinations(user_destinations)
+        return
     if not user_destinations:
         print("Sorry it seems we were unable to find a suitable destination. You may wish to try again.")
+        recommendation(destinations_hash)
 
 def show_user_destinations(destinations):
     print("Your potential destinations are:")
@@ -86,4 +89,4 @@ def destinations_from_attractions(destinations):
     show_user_destinations(user_destinations)
     return user_destinations
 
-#recommendation(destinations_hash)
+recommendation(destinations_hash)
