@@ -4,51 +4,49 @@ from HashMap import HashMap
 def recommendation(destinations_hash):
     user_destinations = destinations_hash.array
     print("Time to find you your ideal holiday destination!")
-    user_destinations = destinations_from_weather(user_destinations)
-    user_destinations = destinations_from_price(user_destinations)
-    user_destinations = destinations_from_attractions(user_destinations)
+    while user_destinations:
+        user_destinations = destinations_from_weather(user_destinations)
+        user_destinations = destinations_from_price(user_destinations)
+        user_destinations = destinations_from_attractions(user_destinations)
+        show_user_destinations(user_destinations)
+    if not user_destinations:
+        print("Sorry it seems we were unable to find a suitable destination. You may wish to try again.")
 
+def show_user_destinations(destinations):
+    print("Your potential destinations are:")
+    for destination in destinations:
+        print(destination[0])
 
 def destinations_from_weather(destinations):
     user_destinations = []
     user_weather_pref = input("Your options for weather are: Sunny, Cold, Seasonal or Any.\nPlease enter your preference: ").lower()
     if user_weather_pref == "any":
-        print("Your possible destinations are: \n")
-        for destination in destinations:
-            print(destination[0])
+        show_user_destinations(destinations)
         return destinations
     else:
         for destination in destinations:
             if destination[1].weather.lower() == user_weather_pref:
                 user_destinations.append(destination)
-        print("Your possible destinations are:")
-        for destination in user_destinations:
-            print(destination[0])
+        show_user_destinations(user_destinations)
         return user_destinations
     
 def destinations_from_price(destinations):
     user_destinations = []
     user_weather_pref = input("Your options for cost are: Cheap, Moderate, Expensive or Any.\nPlease enter your preference: ").lower()
     if user_weather_pref == "any" or "expensive":
-        print("Your possible destinations are: \n")
-        for destination in destinations:
-            print(destination[0])
+        show_user_destinations(destinations)
         return destinations
     elif user_weather_pref == "moderate":
         for destination in destinations:
             if destination[1].cost.lower() == "moderate" or "cheap":
                 user_destinations.append(destination)
-        print("Your possible destinations are:")
-        for destination in user_destinations:
-            print(destination[0])
+        show_user_destinations(user_destinations)
         return user_destinations
     else:
         for destination in destinations:
             if destination[1].cost.lower() == "cheap":
                 user_destinations.append(destination)
-        print("Your possible destinations are:")
-        for destination in user_destinations:
-            print(destination[0])
+        show_user_destinations(user_destinations)
         return user_destinations
 
 
@@ -85,9 +83,7 @@ def destinations_from_attractions(destinations):
             if item in user_choices:
                 if destination not in user_destinations:
                     user_destinations.append(destination)
-    print("Your possible destinations are:")
-    for destination in user_destinations:
-        print(destination[0])
+    show_user_destinations(user_destinations)
     return user_destinations
 
 #recommendation(destinations_hash)
