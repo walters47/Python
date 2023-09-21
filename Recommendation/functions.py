@@ -1,5 +1,4 @@
 from destinations import destinations_hash, destination
-from HashMap import HashMap
 
 def recommendation(destinations_hash):
     user_destinations = destinations_hash.array
@@ -73,7 +72,8 @@ def retrieve_attractions(destinations):
     while len(user_choices) < 3:
         attraction = int(input("Please enter the number of the attraction that appeals to you: "))
         user_choices.append(attractions[attraction-1])
-        ask_again = input("Would you like to make another selection? Yes/No: ").lower()
+        if len(user_choices) <= 2:
+            ask_again = input("Would you like to make another selection? Yes/No: ").lower()
         if ask_again[0] == "n":
             break
     return user_choices
@@ -89,4 +89,4 @@ def destinations_from_attractions(destinations):
     show_user_destinations(user_destinations)
     return user_destinations
 
-recommendation(destinations_hash)
+#recommendation(destinations_hash)
